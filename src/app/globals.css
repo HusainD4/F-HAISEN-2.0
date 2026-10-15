@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── CSS Variables ─────────────────────────────────────────── */
+@layer base {
+  :root {
+    /* Light mode */
+    --bg:          #f8f7f4;
+    --bg-card:     #ffffff;
+    --bg-surface:  #f0eeea;
+    --text:        #1e1e1e;
+    --text-muted:  #6b6b6b;
+    --border:      #e2ddd5;
+    --gold:        #d4af37;
+    --gold-hover:  #b8911e;
+    --gold-light:  rgba(212, 175, 55, 0.12);
+  }
+
+  .dark {
+    --bg:          #1e1e1e;
+    --bg-card:     #2a2a2a;
+    --bg-surface:  #242424;
+    --text:        #f0f0f0;
+    --text-muted:  #999999;
+    --border:      #3a3a3a;
+    --gold:        #d4af37;
+    --gold-hover:  #e5c84e;
+    --gold-light:  rgba(212, 175, 55, 0.1);
+  }
+
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    @apply antialiased transition-colors duration-300;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--bg-surface);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--gold);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--gold-hover);
+  }
+
+  /* Selection */
+  ::selection {
+    background: rgba(212, 175, 55, 0.25);
+    color: var(--text);
+  }
+}
+
+/* ── Component Utilities ───────────────────────────────────── */
+@layer components {
+  /* Card base */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    @apply rounded-xl shadow-card transition-all duration-200;
+  }
+
+  .card-hover {
+    @apply card hover:shadow-gold hover:-translate-y-0.5;
+  }
+
+  /* Gold divider */
+  .gold-divider {
+    @apply w-12 h-0.5 bg-gold;
+  }
+
+  /* Gold text gradient */
+  .text-gold-gradient {
+    background: linear-gradient(135deg, #d4af37 0%, #f5e07a 50%, #d4af37 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Surface glass (for floating navbar) */
+  .glass {
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background: rgba(30, 30, 30, 0.75);
+    border: 1px solid rgba(212, 175, 55, 0.15);
+  }
+
+  .glass-light {
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background: rgba(248, 247, 244, 0.85);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+  }
+}

@@ -1,0 +1,10 @@
+# Robots.txt - Haisen Official Store
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /downloads
+Disallow: /checkout
+Disallow: /api/
+
+Sitemap: https://store.haisenofficial.com/sitemap.xml

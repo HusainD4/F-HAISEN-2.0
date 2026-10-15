@@ -1,0 +1,93 @@
+haisen-store-frontend/
+│
+├── public/                      # Static Assets (favicon, logo, icons, robots.txt)
+│   ├── robots.txt               # Aturan crawling SEO & proteksi direktori sensitif
+│   └── sitemap.xml              # Sitemap XML untuk indexing produk
+│
+├── src/
+│   ├── config/                  # Konfigurasi Global & Validasi Lingkungan
+│   │   ├── env.ts               # Validasi Environment Variables (Zod schema - Anti Leakage)
+│   │   ├── site.ts              # Metadata Toko, SEO, OpenGraph, Canonical URLs
+│   │   └── constants.ts         # Konstanta Role, API Endpoints, Payment Status
+│   │
+│   ├── security/                # Layer Keamanan Tingkat Tinggi (Anti-Peretasan)
+│   │   ├── token_manager.ts     # Manajemen Token JWT In-Memory (Anti-XSS LocalStorage Theft)
+│   │   ├── sanitizer.ts         # Sanitasi Input & Rich Text (DOMPurify - Anti-XSS Injection)
+│   │   ├── csrf.ts              # Handling Header Anti-CSRF Token
+│   │   ├── csp_headers.ts       # Content Security Policy (Anti-Clickjacking & Data Exfiltration)
+│   │   └── secure_storage.ts    # Enkripsi data storage lokal untuk data non-sensitif
+│   │
+│   ├── services/                # API Client & Komunikasi Backend (Layer Terisolasi)
+│   │   ├── api_client.ts        # Axios/Fetch Instance dengan Interceptor & Auto-Refresh Token
+│   │   ├── error_handler.ts     # Masking Error Sensitif (Mencegah Stack Trace Leak ke User)
+│   │   ├── auth_api.ts          # Integrasi Endpoint Login, Register, Refresh, Logout
+│   │   ├── product_api.ts       # Integrasi Endpoint Katalog & Detail Produk
+│   │   ├── order_api.ts         # Integrasi Endpoint Checkout & Riwayat Pesanan
+│   │   ├── payment_api.ts       # Integrasi Snap Midtrans & Polling Status Transaksi
+│   │   └── user_api.ts          # Integrasi Profil & Manajemen User
+│   │
+│   ├── components/              # Komponen UI Reusable
+│   │   ├── common/              # Navbar, Footer, Error Boundary, Notification Banner
+│   │   │   ├── navbar.tsx
+│   │   │   ├── footer.tsx
+│   │   │   └── error_boundary.tsx # Mencegah UI crash & kebocoran info bug
+│   │   ├── ui/                  # Atomic Design (Button, Input, Modal, Badge, Toast)
+│   │   │   ├── button.tsx
+│   │   │   ├── input.tsx        # Input field dengan auto-sanitasi & anti-injection
+│   │   │   ├── modal.tsx
+│   │   │   └── toast.tsx
+│   │   └── guards/              # Proteksi Akses Route Berdasarkan Role
+│   │       ├── auth_guard.tsx   # Guard untuk halaman yang wajib login
+│   │       ├── role_guard.tsx   # Guard Role-Based (Superadmin, Admin, Staff, User)
+│   │       └── guest_guard.tsx  # Mencegah user login mengakses halaman register/login
+│   │
+│   ├── hooks/                   # Custom Hooks
+│   │   ├── use_auth.ts          # Hook autentikasi, status session & permission
+│   │   ├── use_cart.ts          # Hook keranjang belanja dengan validasi integritas harga
+│   │   └── use_debounce.ts      # Debounce input pencarian (Anti-Spam / Rate-Limit client)
+│   │
+│   ├── types/                   # Definisi Type TypeScript Ketat (Type Safety)
+│   │   ├── auth.ts              # Tipe User, Token, Session, Roles
+│   │   ├── product.ts           # Tipe Produk, Kategori, Varian Digital
+│   │   ├── order.ts             # Tipe Order, Item, Status Checkout
+│   │   ├── payment.ts           # Tipe Midtrans Snap Token & Status
+│   │   └── api.ts               # Generic API Response & Error Response
+│   │
+│   ├── utils/                   # Fungsi Helper & Formatters
+│   │   ├── formatters.ts        # Format Rupiah & Tanggal Indonesia
+│   │   └── validators.ts        # Skema validasi form Zod (Validasi di sisi Client)
+│   │
+│   ├── middleware.ts            # Next.js / Edge Middleware (Route Protection & Security Headers)
+│   │
+│   └── app/                     # Routing Berbasis App Router
+│       ├── layout.tsx           # Root Layout (Inject Security Headers & Theme)
+│       ├── page.tsx             # Homepage / Landing Page Toko Digital
+│       │
+│       ├── (auth)/              # Route Group Autentikasi
+│       │   ├── login/page.tsx
+│       │   ├── register/page.tsx
+│       │   └── forgot-password/page.tsx
+│       │
+│       ├── (shop)/              # Route Group Toko & Checkout
+│       │   ├── products/page.tsx
+│       │   ├── products/[slug]/page.tsx
+│       │   ├── cart/page.tsx
+│       │   └── checkout/page.tsx
+│       │
+│       ├── (dashboard)/         # Route Group Dashboard Pembeli
+│       │   ├── dashboard/page.tsx
+│       │   ├── orders/page.tsx
+│       │   └── downloads/page.tsx
+│       │
+│       └── (admin)/             # Route Group Panel Admin (Protected Multi-Role)
+│           ├── admin/page.tsx
+│           ├── admin/products/page.tsx
+│           ├── admin/orders/page.tsx
+│           └── admin/users/page.tsx
+│
+├── .env.example                 # Template Env aman (tanpa rahasia sensitif)
+├── .env.local                   # Environment lokal Frontend
+├── next.config.js               # Konfigurasi Hardened Security Headers (CSP, HSTS, X-Frame)
+├── tsconfig.json                # TypeScript Strict Mode Configuration
+├── tailwind.config.ts           # Styling Configuration
+└── package.json                 # Dependencies Frontend
